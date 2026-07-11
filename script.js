@@ -63,8 +63,9 @@ const restrictedRecordsValue = document.querySelector(
 );
 
 // Footer copyright
-const copyrightText = document.querySelector(
-    ".footer__copyright"
+// Dynamic year displayed in the developer credit.
+const currentYearElement = document.querySelector(
+    "#current-year"
 );
 
 
@@ -1040,9 +1041,7 @@ function addInitialBooks() {
 function updateCopyrightYear() {
     const currentYear = new Date().getFullYear();
 
-    copyrightText.textContent =
-        `© ${currentYear} Solaris Network. ` +
-        "All rights reserved.";
+    currentYearElement.textContent = currentYear;
 }
 
 

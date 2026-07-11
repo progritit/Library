@@ -1147,21 +1147,43 @@ a {
    FOOTER
    ============================================================ */
 
+/* ============================================================
+   FOOTER
+   ------------------------------------------------------------
+   The footer preserves the Solaris system identity while adding
+   the developer signature and animated social links.
+   ============================================================ */
+
 .footer {
     display: grid;
-    grid-template-columns: 1fr minmax(340px, 1.2fr) 1fr;
+    grid-template-columns:
+        minmax(230px, 0.9fr) minmax(340px, 1.4fr) minmax(230px, 0.9fr);
+
     align-items: center;
-    gap: 1rem;
+    gap: 1.25rem;
 
-    min-height: 66px;
-    padding: 0.75rem var(--page-spacing);
+    min-height: 96px;
+    padding: 0.85rem var(--page-spacing);
 
-    border-top: 1px solid rgba(255, 183, 27, 0.24);
+    border-top: 1px solid rgba(255, 183, 27, 0.28);
 
     color: var(--text-muted);
 
-    background: rgba(2, 9, 16, 0.96);
+    background:
+        linear-gradient(90deg,
+            rgba(2, 9, 16, 0.98),
+            rgba(4, 17, 28, 0.96),
+            rgba(2, 9, 16, 0.98));
+
+    box-shadow:
+        0 -10px 30px rgba(0, 0, 0, 0.22),
+        inset 0 1px rgba(255, 183, 27, 0.035);
 }
+
+
+/* ------------------------------------------------------------
+   Solaris network identity
+   ------------------------------------------------------------ */
 
 .footer__network {
     display: flex;
@@ -1169,6 +1191,7 @@ a {
     gap: 0.65rem;
 
     color: var(--text-secondary);
+
     font-family: var(--font-display);
     font-size: 0.62rem;
     letter-spacing: 0.05em;
@@ -1176,42 +1199,253 @@ a {
 }
 
 .footer__network img {
-    width: 22px;
-    height: 22px;
+    width: 23px;
+    height: 23px;
+
+    flex: 0 0 auto;
 
     object-fit: contain;
+
+    filter:
+        drop-shadow(0 0 6px rgba(32, 223, 247, 0.25));
 }
+
+
+/* ------------------------------------------------------------
+   Orbital divider and local-storage notice
+   ------------------------------------------------------------ */
 
 .footer__storage {
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    gap: 0.15rem;
 
     color: var(--blue);
+
     font-size: 0.68rem;
     text-align: center;
 }
 
 .footer__storage img {
-    width: min(100%, 300px);
-    height: 28px;
+    width: clamp(300px, 30vw, 440px);
+    height: auto;
 
     object-fit: contain;
 
-    opacity: 0.65;
+    opacity: 0.9;
+
+    filter:
+        drop-shadow(0 0 8px rgba(255, 183, 27, 0.28));
 }
 
-.footer__copyright {
-    justify-self: end;
 
+/* ------------------------------------------------------------
+   Developer credit
+   ------------------------------------------------------------ */
+
+.footer__developer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.footer__credit {
     margin: 0;
 
+    color: var(--text-secondary);
+
     font-family: var(--font-display);
-    font-size: 0.56rem;
-    letter-spacing: 0.04em;
+    font-size: 0.62rem;
+    letter-spacing: 0.045em;
     text-align: right;
     text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+.footer__credit #current-year {
+    color: var(--gold);
+}
+
+
+/* ------------------------------------------------------------
+   Social links
+   ------------------------------------------------------------ */
+
+.footer__socials {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.social-link {
+    position: relative;
+
+    display: grid;
+    width: 38px;
+    height: 38px;
+
+    flex: 0 0 auto;
+
+    place-items: center;
+
+    overflow: hidden;
+
+    color: var(--cyan);
+
+    border: 1px solid rgba(32, 223, 247, 0.38);
+    border-radius: 50%;
+
+    background:
+        radial-gradient(circle,
+            rgba(32, 223, 247, 0.1),
+            rgba(3, 14, 24, 0.84) 70%);
+
+    box-shadow:
+        inset 0 0 12px rgba(32, 223, 247, 0.05),
+        0 0 0 rgba(32, 223, 247, 0);
+
+    transition:
+        color 180ms ease,
+        border-color 180ms ease,
+        background-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+}
+
+
+/*
+  This glowing ring expands when the social link is hovered
+  or receives keyboard focus.
+*/
+.social-link::before {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    content: "";
+
+    border: 1px solid currentColor;
+    border-radius: inherit;
+
+    opacity: 0;
+
+    transform: scale(0.65);
+}
+
+
+/*
+  This diagonal highlight moves across the icon during interaction.
+*/
+.social-link::after {
+    position: absolute;
+    top: -40%;
+    left: -70%;
+
+    width: 35%;
+    height: 180%;
+
+    content: "";
+
+    opacity: 0;
+
+    transform: rotate(24deg);
+
+    background:
+        linear-gradient(to right,
+            transparent,
+            rgba(255, 255, 255, 0.48),
+            transparent);
+}
+
+.social-link svg {
+    position: relative;
+    z-index: 1;
+
+    width: 19px;
+    height: 19px;
+
+    transition:
+        transform 220ms ease,
+        filter 220ms ease;
+}
+
+
+/* Mouse and keyboard interaction */
+.social-link:hover,
+.social-link:focus-visible {
+    color: var(--gold-light);
+
+    border-color: var(--gold);
+
+    background:
+        radial-gradient(circle,
+            rgba(255, 183, 27, 0.16),
+            rgba(3, 14, 24, 0.88) 72%);
+
+    box-shadow:
+        0 0 18px rgba(255, 183, 27, 0.28),
+        inset 0 0 14px rgba(255, 183, 27, 0.08);
+
+    transform:
+        translateY(-4px) rotate(-4deg) scale(1.05);
+}
+
+.social-link:hover svg,
+.social-link:focus-visible svg {
+    transform:
+        rotate(8deg) scale(1.12);
+
+    filter:
+        drop-shadow(0 0 5px currentColor);
+}
+
+.social-link:hover::before,
+.social-link:focus-visible::before {
+    animation:
+        social-ring-pulse 600ms ease-out;
+}
+
+.social-link:hover::after,
+.social-link:focus-visible::after {
+    animation:
+        social-light-sweep 650ms ease-out;
+}
+
+
+/* Expanding ring animation */
+@keyframes social-ring-pulse {
+    0% {
+        opacity: 0.75;
+        transform: scale(0.65);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.55);
+    }
+}
+
+
+/* Moving highlight animation */
+@keyframes social-light-sweep {
+    0% {
+        left: -70%;
+        opacity: 0;
+    }
+
+    30% {
+        opacity: 0.9;
+    }
+
+    100% {
+        left: 140%;
+        opacity: 0;
+    }
 }
 
 /* ============================================================
@@ -1563,7 +1797,7 @@ input:focus-visible {
     .footer {
         grid-template-columns: 1fr 1fr;
     }
-
+    
     .footer__storage {
         display: none;
     }
@@ -1638,17 +1872,22 @@ input:focus-visible {
 
     .footer {
         grid-template-columns: 1fr;
-
+        gap: 0.85rem;
+    
+        padding-block: 1rem;
+    
         text-align: center;
     }
-
+    
     .footer__network {
         justify-content: center;
     }
-
-    .footer__copyright {
-        justify-self: center;
-
+    
+    .footer__developer {
+        justify-content: center;
+    }
+    
+    .footer__credit {
         text-align: center;
     }
 
@@ -1706,6 +1945,11 @@ input:focus-visible {
 
     .entry-dialog__title h2 {
         font-size: 0.82rem;
+    }
+
+    .footer__developer {
+        flex-direction: column;
+        gap: 0.75rem;
     }
 }
 
