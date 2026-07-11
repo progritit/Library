@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="description" content="Solaris Archive — Mission Knowledge Registry" />
+
+    <title>Solaris Archive</title>
+
+    <!-- Project favicon -->
+    <link rel="icon" href="./assets/branding/favicon.png" type="image/png" />
+
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+    <div class="app-shell">
+        <!-- ======================================================
+           TOP NAVIGATION
+           ====================================================== -->
+
+        <header class="topbar">
+            <a class="brand" href="#" aria-label="Solaris Archive home">
+                <img class="brand__emblem" src="./assets/branding/solaris-archive-emblem.png" alt="" />
+
+                <span class="brand__text">
+                    <span class="brand__title">Solaris Archive</span>
+
+                    <span class="brand__subtitle">
+                        Mission Knowledge Registry
+                    </span>
+                </span>
+            </a>
+
+            <!-- Decorative coordinate information -->
+            <p class="topbar__coordinates" aria-hidden="true">
+                COORD: SOL-03&nbsp;&nbsp;•&nbsp;&nbsp;22.4°N&nbsp;&nbsp;•&nbsp;&nbsp;44.9°E
+            </p>
+
+            <div class="topbar__right">
+                <div class="node-status">
+                    <span class="node-status__indicator"></span>
+
+                    <span>
+                        Archive Node //
+                        <strong>Online</strong>
+                    </span>
+                </div>
+
+                <div class="operator-card">
+                    <img class="operator-card__badge" src="./assets/branding/operator-orion-badge.png" alt="" />
+
+                    <div class="operator-card__details">
+                        <span class="operator-card__label">Operator</span>
+                        <strong>L. Orion</strong>
+                        <span>ID: SOL-03-77A</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- ======================================================
+           MAIN DASHBOARD
+           ====================================================== -->
+
+        <main class="dashboard">
+            <!-- ====================================================
+             ARCHIVE OVERVIEW
+             ==================================================== -->
+
+            <section class="overview" aria-labelledby="registry-title">
+                <div class="overview__intro">
+                    <p class="section-kicker">Archive Control</p>
+
+                    <h1 id="registry-title">Knowledge Registry</h1>
+
+                    <p class="overview__description">
+                        Catalog and monitor authorized records across the
+                        Solaris Network.
+                    </p>
+
+                    <!--
+              JavaScript will later listen for a click on this button
+              and call entryDialog.showModal().
+            -->
+                    <button class="primary-action" id="open-entry-dialog" type="button">
+                        <img class="button-icon button-icon--dark" src="./assets/icons/plus.png" alt="" />
+
+                        Register New Entry
+                    </button>
+                </div>
+
+                <!--
+            These values are currently static.
+
+            JavaScript will later calculate them from myLibrary:
+            - total records
+            - reviewed records
+            - pending records
+            - restricted records
+          -->
+                <div class="stats-grid">
+                    <article class="stat-card stat-card--total">
+                        <div>
+                            <p class="stat-card__label">Total Records</p>
+                            <strong class="stat-card__value">06</strong>
+                        </div>
+
+                        <img class="stat-card__icon" src="./assets/icons/archive.png" alt="" />
+                    </article>
+
+                    <article class="stat-card stat-card--reviewed">
+                        <div>
+                            <p class="stat-card__label">Reviewed</p>
+                            <strong class="stat-card__value">04</strong>
+                        </div>
+
+                        <img class="stat-card__icon" src="./assets/icons/circle-check.png" alt="" />
+                    </article>
+
+                    <article class="stat-card stat-card--pending">
+                        <div>
+                            <p class="stat-card__label">Pending</p>
+                            <strong class="stat-card__value">02</strong>
+                        </div>
+
+                        <img class="stat-card__icon" src="./assets/icons/clock.png" alt="" />
+                    </article>
+
+                    <article class="stat-card stat-card--restricted">
+                        <div>
+                            <p class="stat-card__label">Restricted</p>
+                            <strong class="stat-card__value">01</strong>
+                        </div>
+
+                        <img class="stat-card__icon" src="./assets/icons/lock.png" alt="" />
+                    </article>
+                </div>
+
+                <!--
+            This small panel previews the component that will appear
+            when myLibrary is empty.
+          -->
+                <aside class="empty-preview">
+                    <p class="empty-preview__label">
+                        Empty State Preview
+                    </p>
+
+                    <img class="empty-preview__symbol" src="./assets/illustrations/empty-archive-symbol.png" alt="" />
+
+                    <h2>No records detected</h2>
+
+                    <p>
+                        Register a new entry to initialize the archive.
+                    </p>
+                </aside>
+            </section>
+
+            <!-- ====================================================
+             ARCHIVE RECORDS
+             ==================================================== -->
+
+            <section class="archive-section" aria-labelledby="records-heading">
+                <h2 id="records-heading" class="sr-only">
+                    Archive records
+                </h2>
+
+                <!--
+            The toolbar currently contains only HTML controls.
+
+            JavaScript will later listen for:
+            - search input events
+            - category changes
+            - status changes
+            - classification changes
+          -->
+                <form class="archive-toolbar" role="search">
+                    <label class="search-control">
+                        <span class="sr-only">Search archive records</span>
+
+                        <img class="search-control__icon" src="./assets/icons/search.png" alt="" />
+
+                        <input id="record-search" name="record-search" type="search"
+                            placeholder="Search archive records..." autocomplete="off" />
+                    </label>
+
+                    <label class="select-control">
+                        <span class="sr-only">Filter by category</span>
+
+                        <select id="category-filter" name="category-filter">
+                            <option value="all">All Categories</option>
+                            <option value="technical-manual">
+                                Technical Manual
+                            </option>
+                            <option value="mission-log">Mission Log</option>
+                            <option value="system-file">System File</option>
+                            <option value="research">Research</option>
+                            <option value="media-archive">
+                                Media Archive
+                            </option>
+                        </select>
+                    </label>
+
+                    <label class="select-control">
+                        <span class="sr-only">Filter by status</span>
+
+                        <select id="status-filter" name="status-filter">
+                            <option value="all">All Statuses</option>
+                            <option value="reviewed">Reviewed</option>
+                            <option value="pending">Pending Review</option>
+                        </select>
+                    </label>
+
+                    <label class="select-control">
+                        <span class="sr-only">
+                            Filter by classification
+                        </span>
+
+                        <select id="classification-filter" name="classification-filter">
+                            <option value="all">All Clearances</option>
+                            <option value="public">Public</option>
+                            <option value="level-1">Level 1</option>
+                            <option value="level-2">Level 2</option>
+                            <option value="level-3">Level 3</option>
+                            <option value="restricted">Restricted</option>
+                        </select>
+                    </label>
+                </form>
+
+                <!--
+            TEMPORARY STATIC CARDS
+
+            Later, JavaScript will:
+            1. Empty this container.
+            2. Loop through myLibrary.
+            3. Generate one article for every Book object.
+            4. Add the book's unique UUID to data-record-id.
+          -->
+                <div class="records-grid" id="records-grid">
+                    <!-- ================================================
+                 RECORD 1
+                 ================================================ -->
+
+                    <article class="record-card" data-record-id="ARC-1001">
+                        <header class="record-card__header">
+                            <div class="record-card__category">
+                                <img class="record-card__document-icon" src="./assets/icons/file-text.png" alt="" />
+
+                                <span>Technical Manual</span>
+                            </div>
+
+                            <span class="classification classification--level">
+                                Level 2
+                            </span>
+                        </header>
+
+                        <div class="record-card__content">
+                            <h3>Aurelium Grid Protocols</h3>
+
+                            <p class="record-card__source">
+                                Solaris Engineering Division
+                            </p>
+                        </div>
+
+                        <div class="record-card__meta">
+                            <span>
+                                <img src="./assets/icons/book-open.png" alt="" />
+                                284 Pages
+                            </span>
+
+                            <span class="priority priority--high">
+                                <img src="./assets/icons/flag.png" alt="" />
+                                High
+                            </span>
+
+                            <span class="record-status record-status--reviewed">
+                                <span class="status-dot"></span>
+                                Reviewed
+                            </span>
+                        </div>
+
+                        <div class="record-card__actions">
+                            <button class="status-button status-button--reviewed" type="button">
+                                <img src="./assets/icons/check.png" alt="" />
+
+                                Reviewed
+                            </button>
+
+                            <button class="remove-button" type="button" aria-label="Remove Aurelium Grid Protocols">
+                                <img src="./assets/icons/trash-2.png" alt="" />
+
+                                Remove
+                            </button>
+                        </div>
+
+                        <p class="record-card__id">ID: ARC-1001</p>
+                    </article>
+
+                    <!-- ================================================
+                 RECORD 2
+                 ================================================ -->
+
+                    <article class="record-card record-card--restricted" data-record-id="ARC-1002">
+                        <header class="record-card__header">
+                            <div class="record-card__category">
+                                <img class="record-card__document-icon" src="./assets/icons/file-text.png" alt="" />
+
+                                <span>Mission Log</span>
+                            </div>
+
+                            <span class="classification classification--restricted">
+                                Restricted
+                            </span>
+                        </header>
+
+                        <div class="record-card__content">
+                            <h3>The Helios Incident</h3>
+
+                            <p class="record-card__source">
+                                Commander Elian Voss
+                            </p>
+                        </div>
+
+                        <div class="record-card__meta">
+                            <span>
+                                <img src="./assets/icons/book-open.png" alt="" />
+                                96 Pages
+                            </span>
+
+                            <span class="priority priority--critical">
+                                <img src="./assets/icons/flag.png" alt="" />
+                                Critical
+                            </span>
+
+                            <span class="record-status record-status--pending">
+                                <span class="status-dot"></span>
+                                Pending Review
+                            </span>
+                        </div>
+
+                        <div class="record-card__actions">
+                            <button class="status-button status-button--pending" type="button">
+                                <img src="./assets/icons/clock.png" alt="" />
+
+                                Pending Review
+                            </button>
+
+                            <button class="remove-button" type="button" aria-label="Remove The Helios Incident">
+                                <img src="./assets/icons/trash-2.png" alt="" />
+
+                                Remove
+                            </button>
+                        </div>
+
+                        <p class="record-card__id">ID: ARC-1002</p>
+                    </article>
+
+                    <!-- ================================================
+                 RECORD 3
+                 ================================================ -->
+
+                    <article class="record-card" data-record-id="ARC-1003">
+                        <header class="record-card__header">
+                            <div class="record-card__category">
+                                <img class="record-card__document-icon" src="./assets/icons/file-text.png" alt="" />
+
+                                <span>System File</span>
+                            </div>
+
+                            <span class="classification classification--level">
+                                Level 3
+                            </span>
+                        </header>
+
+                        <div class="record-card__content">
+                            <h3>Solaris Access Node Specifications</h3>
+
+                            <p class="record-card__source">
+                                Network Security Unit
+                            </p>
+                        </div>
+
+                        <div class="record-card__meta">
+                            <span>
+                                <img src="./assets/icons/book-open.png" alt="" />
+                                142 Pages
+                            </span>
+
+                            <span class="priority priority--medium">
+                                <img src="./assets/icons/flag.png" alt="" />
+                                Medium
+                            </span>
+
+                            <span class="record-status record-status--reviewed">
+                                <span class="status-dot"></span>
+                                Reviewed
+                            </span>
+                        </div>
+
+                        <div class="record-card__actions">
+                            <button class="status-button status-button--reviewed" type="button">
+                                <img src="./assets/icons/check.png" alt="" />
+
+                                Reviewed
+                            </button>
+
+                            <button class="remove-button" type="button"
+                                aria-label="Remove Solaris Access Node Specifications">
+                                <img src="./assets/icons/trash-2.png" alt="" />
+
+                                Remove
+                            </button>
+                        </div>
+
+                        <p class="record-card__id">ID: ARC-1003</p>
+                    </article>
+
+                    <!-- ================================================
+                 RECORD 4
+                 ================================================ -->
+
+                    <article class="record-card record-card--public" data-record-id="ARC-1004">
+                        <header class="record-card__header">
+                            <div class="record-card__category">
+                                <img class="record-card__document-icon" src="./assets/icons/file-text.png" alt="" />
+
+                                <span>Research</span>
+                            </div>
+
+                            <span class="classification classification--public">
+                                Public
+                            </span>
+                        </header>
+
+                        <div class="record-card__content">
+                            <h3>Orbital Colony Field Notes</h3>
+
+                            <p class="record-card__source">Dr. Mara Sol</p>
+                        </div>
+
+                        <div class="record-card__meta">
+                            <span>
+                                <img src="./assets/icons/book-open.png" alt="" />
+                                217 Pages
+                            </span>
+
+                            <span class="priority priority--low">
+                                <img src="./assets/icons/flag.png" alt="" />
+                                Low
+                            </span>
+
+                            <span class="record-status record-status--pending">
+                                <span class="status-dot"></span>
+                                Pending Review
+                            </span>
+                        </div>
+
+                        <div class="record-card__actions">
+                            <button class="status-button status-button--pending" type="button">
+                                <img src="./assets/icons/clock.png" alt="" />
+
+                                Pending Review
+                            </button>
+
+                            <button class="remove-button" type="button" aria-label="Remove Orbital Colony Field Notes">
+                                <img src="./assets/icons/trash-2.png" alt="" />
+
+                                Remove
+                            </button>
+                        </div>
+
+                        <p class="record-card__id">ID: ARC-1004</p>
+                    </article>
+
+                    <!-- ================================================
+                 RECORD 5
+                 ================================================ -->
+
+                    <article class="record-card" data-record-id="ARC-1005">
+                        <header class="record-card__header">
+                            <div class="record-card__category">
+                                <img class="record-card__document-icon" src="./assets/icons/file-text.png" alt="" />
+
+                                <span>Media Archive</span>
+                            </div>
+
+                            <span class="classification classification--level">
+                                Level 1
+                            </span>
+                        </header>
+
+                        <div class="record-card__content">
+                            <h3>Solar Sketch Visual Records</h3>
+
+                            <p class="record-card__source">
+                                Creative Intelligence Lab
+                            </p>
+                        </div>
+
+                        <div class="record-card__meta">
+                            <span>
+                                <img src="./assets/icons/book-open.png" alt="" />
+                                73 Pages
+                            </span>
+
+                            <span class="priority priority--medium">
+                                <img src="./assets/icons/flag.png" alt="" />
+                                Medium
+                            </span>
+
+                            <span class="record-status record-status--reviewed">
+                                <span class="status-dot"></span>
+                                Reviewed
+                            </span>
+                        </div>
+
+                        <div class="record-card__actions">
+                            <button class="status-button status-button--reviewed" type="button">
+                                <img src="./assets/icons/check.png" alt="" />
+
+                                Reviewed
+                            </button>
+
+                            <button class="remove-button" type="button" aria-label="Remove Solar Sketch Visual Records">
+                                <img src="./assets/icons/trash-2.png" alt="" />
+
+                                Remove
+                            </button>
+                        </div>
+
+                        <p class="record-card__id">ID: ARC-1005</p>
+                    </article>
+
+                    <!-- ================================================
+                 RECORD 6
+                 ================================================ -->
+
+                    <article class="record-card" data-record-id="ARC-1006">
+                        <header class="record-card__header">
+                            <div class="record-card__category">
+                                <img class="record-card__document-icon" src="./assets/icons/file-text.png" alt="" />
+
+                                <span>Technical Manual</span>
+                            </div>
+
+                            <span class="classification classification--level">
+                                Level 2
+                            </span>
+                        </header>
+
+                        <div class="record-card__content">
+                            <h3>Calc-Core Diagnostic Manual</h3>
+
+                            <p class="record-card__source">
+                                Solaris Systems
+                            </p>
+                        </div>
+
+                        <div class="record-card__meta">
+                            <span>
+                                <img src="./assets/icons/book-open.png" alt="" />
+                                188 Pages
+                            </span>
+
+                            <span class="priority priority--high">
+                                <img src="./assets/icons/flag.png" alt="" />
+                                High
+                            </span>
+
+                            <span class="record-status record-status--reviewed">
+                                <span class="status-dot"></span>
+                                Reviewed
+                            </span>
+                        </div>
+
+                        <div class="record-card__actions">
+                            <button class="status-button status-button--reviewed" type="button">
+                                <img src="./assets/icons/check.png" alt="" />
+
+                                Reviewed
+                            </button>
+
+                            <button class="remove-button" type="button" aria-label="Remove Calc-Core Diagnostic Manual">
+                                <img src="./assets/icons/trash-2.png" alt="" />
+
+                                Remove
+                            </button>
+                        </div>
+
+                        <p class="record-card__id">ID: ARC-1006</p>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <!-- ======================================================
+           FOOTER
+           ====================================================== -->
+
+        <footer class="footer">
+            <div class="footer__network">
+                <img src="./assets/icons/globe-2.png" alt="" />
+
+                <span>Solaris Network // Archive Node 03</span>
+            </div>
+
+            <div class="footer__storage">
+                <img src="./assets/illustrations/orbital-divider.png" alt="" />
+
+                <span>
+                    Local registry mode — persistent storage unavailable
+                </span>
+            </div>
+
+            <p class="footer__copyright">
+                © 2026 Solaris Network. All rights reserved.
+            </p>
+        </footer>
+    </div>
+
+    <!-- ========================================================
+         REGISTER ENTRY DIALOG
+         ======================================================== -->
+
+    <!--
+      The dialog does not have the "open" attribute because it should
+      normally be opened through JavaScript.
+
+      During CSS development, you may temporarily change:
+
+      <dialog class="entry-dialog">
+
+      to:
+
+      <dialog class="entry-dialog" open>
+
+      This allows you to see and style the dialog before JavaScript
+      is implemented.
+    -->
+    <dialog class="entry-dialog" id="entry-dialog" aria-labelledby="dialog-title">
+        <!--
+        JavaScript will later intercept submission using:
+
+        event.preventDefault();
+      -->
+        <form class="entry-form" id="entry-form">
+            <header class="entry-dialog__header">
+                <div class="entry-dialog__title">
+                    <img src="./assets/icons/archive.png" alt="" />
+
+                    <h2 id="dialog-title">
+                        Register Archive Entry
+                    </h2>
+                </div>
+
+                <button class="dialog-close" id="close-entry-dialog" type="button"
+                    aria-label="Close registration dialog">
+                    <img src="./assets/icons/x.png" alt="" />
+                </button>
+            </header>
+
+            <div class="entry-form__fields">
+                <div class="form-field">
+                    <label for="record-title">Record Title</label>
+
+                    <input id="record-title" name="record-title" type="text" placeholder="Enter record title..."
+                        required />
+                </div>
+
+                <div class="form-field">
+                    <label for="record-author">
+                        Author / Source
+                    </label>
+
+                    <input id="record-author" name="record-author" type="text" placeholder="Enter author or source..."
+                        required />
+                </div>
+
+                <div class="form-field">
+                    <label for="record-category">Category</label>
+
+                    <select id="record-category" name="record-category" required>
+                        <option value="" disabled selected>
+                            Select category...
+                        </option>
+
+                        <option value="Technical Manual">
+                            Technical Manual
+                        </option>
+
+                        <option value="Mission Log">
+                            Mission Log
+                        </option>
+
+                        <option value="System File">
+                            System File
+                        </option>
+
+                        <option value="Research">Research</option>
+
+                        <option value="Media Archive">
+                            Media Archive
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="record-pages">
+                        Record Length / Pages
+                    </label>
+
+                    <input id="record-pages" name="record-pages" type="number" min="1" max="10000"
+                        placeholder="Enter number of pages..." required />
+                </div>
+
+                <div class="form-field">
+                    <label for="record-priority">Priority</label>
+
+                    <select id="record-priority" name="record-priority" required>
+                        <option value="" disabled selected>
+                            Select priority...
+                        </option>
+
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Critical">Critical</option>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="record-classification">
+                        Classification Level
+                    </label>
+
+                    <select id="record-classification" name="record-classification" required>
+                        <option value="" disabled selected>
+                            Select classification...
+                        </option>
+
+                        <option value="Public">Public</option>
+                        <option value="Level 1">Level 1</option>
+                        <option value="Level 2">Level 2</option>
+                        <option value="Level 3">Level 3</option>
+                        <option value="Restricted">
+                            Restricted
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Accessible checkbox styled as a switch -->
+                <label class="review-switch">
+                    <span>Record already reviewed</span>
+
+                    <input id="record-reviewed" name="record-reviewed" type="checkbox" />
+
+                    <span class="review-switch__track" aria-hidden="true">
+                        <span class="review-switch__thumb"></span>
+                    </span>
+                </label>
+            </div>
+
+            <footer class="entry-dialog__actions">
+                <button class="dialog-button dialog-button--cancel" id="cancel-entry" type="button">
+                    Cancel
+                </button>
+
+                <button class="dialog-button dialog-button--submit" type="submit">
+                    <img class="button-icon button-icon--dark" src="./assets/icons/plus.png" alt="" />
+
+                    Add to Archive
+                </button>
+            </footer>
+        </form>
+    </dialog>
+</body>
+
+</html>
